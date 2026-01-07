@@ -1,9 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { dummyPlans } from '../assets/assets'
+import Loading from './Loading.jsx'
+
 
 function Credits() {
+  const [plans, setPlans] = useState([])
+  const [loading, setLoading] = useState(true)
+  
+  const fetchPlan = async () => {
+    
+    setPlans(dummyPlans)
+    setLoading(false)
+    
+  }
+
+  useEffect(() => {
+    fetchPlan()
+  }, [])
+  console.log(plans)
+  if(loading) return <Loading/>
+
   return (
-    <div>Credits</div>
-  )
+    <div className=" max-w-7xl h-screen overflow-y-scroll max-auto px-4 sm:px-6 lg:px-8 py-12 ">
+      <h2 className=' text-3xl font-semibold text-center mb-10 xl:mt-30 text-gray-200    '>Credits Plans</h2>
+      <div className=' flex flex-wrap justify-center gap-8'>
+        {
+          plans.map((item) => (
+            <div key={item._id} className={`border border-purple-700 rounded-lg shadow hover:shadow-lg transition-shadow p-6 min-w-[300px] flex flex-col ${item._id === 'pro' ? "bg-purple-900" : "bg-transparent"}`}>
+              <div className=' flex-1'>
+                <h3 className=' text-xl font-semibold teext-gray-200 mb-2'>{item.name}</h3>
+                <p className=' text-2xl font-bold text-purple-300  mb-4'>${item.price} 
+                  <span className=' text-base font-normal text-gray-300 '>{" "}/{item.credits }credits</span>
+                 </p>
+                <ul className=' list-disc list-inside text-sm text-gray-200 space-y-1'>
+                  {
+                    item.features.map((feature,index) => (
+                      <li key={index}>{ feature}</li>
+                    ))
+                  }
+                </ul>
+              </div>
+              <button className=' mt-6 bg-purple-600 hover:bg-purple-800 active:bg-purple-900 text-white font-medium py-2 rounded transition-colors cursor-pointer'>Buy Now</button>
+
+            </div>
+
+          ))
+        }
+         </div>
+    </div>
+  );
 }
 
 export default Credits

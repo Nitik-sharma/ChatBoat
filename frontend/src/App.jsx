@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import './index.css'
 import Sidbar from './Components/Sidbar'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Chatboat from './Components/Chatboat'
 import Message from './Components/Message'
 import Credits from './Pages/Credits'
 import Community from './Pages/Community'
 import { assets } from './assets/assets'
+import './assets/prism.css'
+import Loading from './Pages/Loading'
+import Login from './Pages/Login'
 function App() {
-  const [isMenuOpen,setIsMenuOpen]=useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { pathname } = useLocation()
+  
+  if(pathname==='/loading') return <Loading/>
   return (
     <>
       {!isMenuOpen && <img src={ assets.menu_icon} className=' w-8 h-8 cursor-pointer absolute top-3 left-3 md:hidden ' onClick={()=>setIsMenuOpen(true)}/>}
@@ -19,7 +25,8 @@ function App() {
             <Route path="/" element={<Chatboat />} />
             <Route path="/credits" element={<Credits />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/message" element={<Message />} />
+            <Route path="/login" element={<Login />} />
+
           </Routes>
         </div>
       </div>

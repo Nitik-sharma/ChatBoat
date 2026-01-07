@@ -21,8 +21,7 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
         />
 
         <button
-          className=" flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-l from-purple-600 to-blue-500 rounded-2xl text-sm cursor-pointer 
-"
+          className=" flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-l from-purple-600 to-blue-500 rounded-2xl text-sm cursor-pointer"
         >
           <span className=" mr-2">+</span> New Chat
         </button>

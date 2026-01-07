@@ -1,24 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAppContext } from '../Contex/AppContext'
 import { assets } from '../assets/assets'
 import Message from './Message'
 
 function Chatboat() {
+  const containerRef=useRef(null)
   const { selectedChat } = useAppContext();
   const [ messages, setMessages ] = useState([])
   const [loading, setLoading] = useState(false)
+  const [prompt, setPrompt] = useState("")
+  const [mode, setMode] = useState("text")
+  const [isPublished, setIsPublished] = useState(false)
+  
+  const onSubmit = async (e) => {
+    e.preventDefault()
+  }
+  
   
   useEffect(() => {
     if (selectedChat) {
       setMessages(selectedChat.messages || []);
       
    }
-  },[selectedChat])
+  }, [selectedChat])
+  
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior:"smooth"
+      })
+    }
+  },[messages])
   
   return (
     <div className=" flex-1 flex flex-col  justify-between m-5 md:m-10 xl:mx-30  max-md:mt-14  2xl:pr-40">
       {/* ChatBoat */}
-      <div className="flex-1 mb-5 overflow-y-auto">
+      <div ref={containerRef} className="flex-1 mb-5 overflow-y-auto">
         {messages.length === 0 && (
           <div className="  text-primary flex justify-center items-center h-full">
             <img
@@ -35,11 +54,36 @@ function Chatboat() {
         {messages.map((msg, index) => (
           <Message key={index} messages={msg} />
         ))}
+
+        {/* {Loading dots } */}
+        {loading && (
+          <div className=" loader flex items-center gap-1.5">
+            <div className=" w-1.5 h-1.5 rounded-full bg-white animate-bounce"></div>
+            <div className=" w-1.5 h-1.5 rounded-full bg-white animate-bounce"></div>
+            <div className=" w-1.5 h-1.5 rounded-full bg-white animate-bounce"></div>
+          </div>
+        )}
       </div>
 
+      {
+        mode === 'image' && (
+          <label className=' inline-flex items-center gap-2 tet-sm mx-auto'>
+            <p className=' text-xs '>Publish Generated Image to Community</p>
+            <input type="checkbox" className=" cursor-pointer" name="" id="" checked={ isPublished} onChange={(e)=>{setIsPublished(e.target.checked)}}/>
+          </label>
+        )
+      }
+
       {/* form */}
-      <form action="" method="post">
-        <input type="text" />
+      <form onSubmit={onSubmit} className=' bg-[#583C79]/30 border border-gray-400 rounded-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center '>
+        <select onChange={(e)=>{setMode(e.target.value)}} className=" text-sm pl-3 pr-2 outline-none" name="" id="" value={mode}>
+          <option className=' bg-purple-900' value="text">Text</option>
+          <option className=' bg-purple-900' value="image">Image</option>
+        </select>
+        <input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder=' Type your prompt here ....' type="text" className=' flex-1 w-full text-sm outline-none' required />
+        <button disabled={loading}>
+          <img src={loading?assets.stop_icon:assets.send_icon} alt="" className=' w-8 cursor-pointer'/>
+        </button>
       </form>
     </div>
   );
