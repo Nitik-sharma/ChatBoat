@@ -4,14 +4,15 @@ import { assets } from '../assets/assets'
 import moment from 'moment'
 
 function Sidbar({isMenuOpen,setIsMenuOpen}) {
-  const { chat, setSeletedChat, theme, setTheme, user, navigate } = useAppContext()
+  const { chat, setSelectedChat, theme, setTheme, user, navigate } =
+    useAppContext();
   console.log(user)
   console.log(chat)
     const[search,setSearch]=useState("")
   return (
     <div>
       <div
-        className={`flex flex-col h-screen min-w-72 p-5 dark-bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-gray-700  backdrop:blur-3xl transition-all duration-500 max-md:absolute  left-0 z-1 ${!isMenuOpen &&'max-md:translate-x-100'}`}
+        className={`flex flex-col h-screen min-w-72 p-5 dark-bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-gray-700  backdrop:blur-3xl transition-all duration-500 max-md:absolute  left-0 z-1 ${!isMenuOpen &&' max-md:hidden '}`}
       >
         <img
           src={theme === "dark" ? assets.logo_full : assets.logo_full_dark}
@@ -57,9 +58,10 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
                     .includes(search.toLowerCase())
                 : chat.name.toLowerCase().includes(search.toLowerCase)
             )
-            .map((chat) => {
+            .map((chat) => { 
               return (
-                <div
+                <div onClick={() => {navigate("/");
+                  setSelectedChat(chat); setIsMenuOpen(false)}}
                   key={chat._id}
                   className=" p-2 px-4 border border-gray-400  dark:bg-[#57317C]/10 dark:border dark:border-gray-300 rounded-sm cursor-pointer  flex justify-between group gap-1 m-2 "
                 >
@@ -84,7 +86,7 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
         </div>
         {/* community image */}
         <div
-          onClick={() => navigate("/community")}
+          onClick={() => { navigate("/community"); setIsMenuOpen(false)}}
           className=" flex  items-center gap-3 p-3 mt-4  border border-gray-500  dark:border-gray-200 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
           <img
@@ -99,7 +101,7 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
 
         {/* cardit image */}
         <div
-          onClick={() => navigate("/credits")}
+          onClick={() => { navigate("/credits"); setIsMenuOpen(false);}}
           className=" flex  items-center gap-3 p-3 mt-4  border border-gray-500  dark:border-gray-200 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
           <img
