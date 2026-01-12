@@ -270,7 +270,7 @@ export const dummyChats = [
         "userName": "GreatStack"
     },
     {
-        "_id": Date.now(),
+        "_id": Date.now().toString(),
         "userId": "gs123456789",
         "name": "New Chat",
         "userName": "GreatStack",

@@ -7,12 +7,14 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
   const { chat, setSelectedChat, theme, setTheme, user, navigate } =
     useAppContext();
   console.log(user)
-  console.log(chat)
+  console.log("chat",chat)
     const[search,setSearch]=useState("")
   return (
     <div>
       <div
-        className={`flex flex-col h-screen min-w-72 p-5 dark-bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-gray-700  backdrop:blur-3xl transition-all duration-500 max-md:absolute  left-0 z-1 ${!isMenuOpen &&' max-md:hidden '}`}
+        className={`flex flex-col h-screen min-w-72 p-5 dark-bg-gradient-to-b from-[#242124]/30 to-[#000000]/30 border-r border-gray-700  backdrop:blur-3xl transition-all duration-500 max-md:absolute  left-0 z-1 ${
+          !isMenuOpen && " max-md:hidden "
+        }`}
       >
         <img
           src={theme === "dark" ? assets.logo_full : assets.logo_full_dark}
@@ -20,9 +22,7 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
           className=" w-full max-w-48"
         />
 
-        <button
-          className=" flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-l from-purple-600 to-blue-500 rounded-2xl text-sm cursor-pointer"
-        >
+        <button className=" flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-l from-purple-600 to-blue-500 rounded-2xl text-sm cursor-pointer">
           <span className=" mr-2">+</span> New Chat
         </button>
         {/* search converstion */}
@@ -55,17 +55,21 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
                 ? chat.messages[0]?.content
                     .toLowerCase()
                     .includes(search.toLowerCase())
-                : chat.name.toLowerCase().includes(search.toLowerCase)
+                : chat.name.toLowerCase().includes(search.toLowerCase())
             )
-            .map((chat) => { 
+            .map((chat) => {
               return (
-                <div onClick={() => {navigate("/");
-                  setSelectedChat(chat); setIsMenuOpen(false)}}
+                <div
+                  onClick={() => {
+                    navigate("/");
+                    setSelectedChat(chat);
+                    setIsMenuOpen(false);
+                  }}
                   key={chat._id}
-                  className=" p-2 px-4 border border-gray-400  dark:bg-[#57317C]/10 dark:border dark:border-gray-300 rounded-sm cursor-pointer  flex justify-between group gap-1 m-2 "
+                  className="p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md cursor-pointer group"
                 >
                   <div>
-                    <p className=" truncate w-full">
+                    <p className="truncate w-full">
                       {chat.messages.length > 0
                         ? chat.messages[0].content.slice(0, 32)
                         : chat.name}
@@ -85,7 +89,10 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
         </div>
         {/* community image */}
         <div
-          onClick={() => { navigate("/community"); setIsMenuOpen(false)}}
+          onClick={() => {
+            navigate("/community");
+            setIsMenuOpen(false);
+          }}
           className=" flex  items-center gap-3 p-3 mt-4  border border-gray-500  dark:border-gray-200 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
           <img
@@ -100,7 +107,10 @@ function Sidbar({isMenuOpen,setIsMenuOpen}) {
 
         {/* cardit image */}
         <div
-          onClick={() => { navigate("/credits"); setIsMenuOpen(false);}}
+          onClick={() => {
+            navigate("/credits");
+            setIsMenuOpen(false);
+          }}
           className=" flex  items-center gap-3 p-3 mt-4  border border-gray-500  dark:border-gray-200 rounded-md cursor-pointer hover:scale-103 transition-all"
         >
           <img
